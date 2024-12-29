@@ -1,18 +1,40 @@
-import {View, Text, StyleSheet} from 'react-native';
-
+import { View, Text, StyleSheet, Pressable } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeMenu = () => {
+  return (
+    <View style={styles.menuBackground}>
+      <View style={styles.menuContainer}>
+        <Pressable
+          onPress={() => { /* Handle home icon press */ }}
+          style={({ pressed }) => [
+            { transform: [{ scale: pressed ? 0.9 : 1.0 }] },
+          ]}
+        >
+          <Icon name="home" size={25} color="#EDF6F9" />
+        </Pressable>
+        <Pressable
+          onPress={() => { /* Handle plus icon press */ }}
+          style={({ pressed }) => [
+            { transform: [{ scale: pressed ? 0.9 : 1.0 }] },
+          ]}
+        >
+          <Icon name="plus" size={25} color="#EDF6F9" />
+        </Pressable>
+        <Pressable
+          onPress={() => { /* Handle user icon press */ }}
+          style={({ pressed }) => [
+            { transform: [{ scale: pressed ? 0.9 : 1.0 }] },
+          ]}
+        >
+          <Icon name="user" size={25} color="#EDF6F9" />
+        </Pressable>
+      </View>
+    </View>
+  );
+};
 
-    return(
-        <View style={styles.menuBackground}>
-        <View style={styles.menuContainer}>
-            <Text>
-                Hola
-            </Text>
-        </View>
-        </View>
-    )
-}
+export default HomeMenu;
 
 const styles = StyleSheet.create({
     menuBackground: {
@@ -20,7 +42,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         width: '100%',
-        height: 70,
+        height: 60,
         flexDirection: 'row',
         justifyContent: 'center'
 
