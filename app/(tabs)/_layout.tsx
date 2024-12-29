@@ -1,59 +1,42 @@
-import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Slot, useRouter } from 'expo-router';
+import { View, ActivityIndicator } from 'react-native';
 
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+// Simularemos un estado de autenticación con un valor de sesión.
+const useAuth = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>['name'];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
-}
+  useEffect(() => {
+    // Simula una verificación de autenticación (podrías usar AsyncStorage o SecureStore aquí)
+    setTimeout(() => {
+      const userSession = true; // Cambia esto a true para simular un usuario logueado.
+      setIsLoggedIn(userSession);
+      setLoading(false);
+    }, 1000);
+  }, []);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  return { isLoggedIn, loading };
+};
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </Tabs>
-  );
+export default function Layout() {
+  const { isLoggedIn, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      router.replace('/login'); // Redirige a la pantalla de login si no está autenticado
+    }
+  }, [loading, isLoggedIn]);
+
+  if (loading) {
+    // Mostrar un indicador de carga mientras se verifica la sesión
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return <Slot />; // Renderiza las pantallas de la app si está autenticado
 }
