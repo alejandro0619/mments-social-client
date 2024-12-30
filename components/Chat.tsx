@@ -10,8 +10,12 @@ import Animated, {
 
 import Picture from '@/components/Picture';
 
-
-const Chat = () => {
+type ChatContentProps = {
+    name: string;
+    lastMessage: string;
+    timestamp: string;
+    }
+const Chat: React.FC<ChatContentProps> = ({content}) => {
     const scale = useSharedValue(1);
     const backgroundColor = useSharedValue(0); // 0 para estado normal, 1 para presionado
 
@@ -45,14 +49,14 @@ const Chat = () => {
                 <Picture />
                 <View style={styles.content}>
                     <View style={styles.chatName}>
-                        <Text style={styles.chatNameText}>Nombre</Text>
+                        <Text style={styles.chatNameText}>{content.name}</Text>
                     </View>
                     <View>
-                        <Text style={styles.messagePreview}>This is a preview message</Text>
+                        <Text style={styles.messagePreview}>{content.lastMessage}</Text>
                     </View>
                 </View>
                 <View style={styles.timestamp}>
-                    <Text>12:00</Text>
+                    <Text>{content.timestamp}</Text>
                 </View>
             </Pressable>
         </Animated.View>

@@ -3,17 +3,17 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import Animated, { Easing, interpolateColor, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 type HomeTabsProps = {
-  selectedTab: "Hubs" | "All";
-  onTabChange: (tab: "Hubs" | "All") => void;
+  selectedTab: "Hubs" | "Discover";
+  onTabChange: (tab: "Hubs" | "Discover") => void;
 };
 
 const HomeTabs: React.FC<HomeTabsProps> = ({ selectedTab, onTabChange }) => {
 
 
   const hubFocus = useSharedValue(selectedTab === "Hubs" ? 1 : 0);
-  const allFocus = useSharedValue(selectedTab === "All" ? 1 : 0);
+  const allFocus = useSharedValue(selectedTab === "Discover" ? 1 : 0);
 
-  const handleTabPress = (tab: "Hubs" | "All") => {
+  const handleTabPress = (tab: "Hubs" | "Discover") => {
     onTabChange(tab);
 
     if (tab === "Hubs") {
@@ -56,7 +56,7 @@ const HomeTabs: React.FC<HomeTabsProps> = ({ selectedTab, onTabChange }) => {
       </Animated.View>
 
       <Animated.View style={[styles.tab, allAnimatedStyle]}>
-        <TouchableOpacity onPress={() => handleTabPress("All")}>
+        <TouchableOpacity onPress={() => handleTabPress("Discover")}>
           <Text style={styles.tabsText}>All</Text>
         </TouchableOpacity>
       </Animated.View>

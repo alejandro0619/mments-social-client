@@ -15,11 +15,10 @@ const styles = StyleSheet.create({
         picture: {
             width: 50,
             height: 50,
-            borderRadius: 25,
+            borderRadius: 50,
             backgroundColor: '#ddd',
             justifyContent: 'center',
             alignItems: 'center',
-            marginRight: 10,
         }
     })
 

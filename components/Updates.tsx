@@ -32,7 +32,6 @@ const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: '#fff',
     borderRadius: 20,
-
     width: 365,
     marginTop: 10,
     padding: 16
@@ -63,8 +62,8 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   viewButton: {
-    backgroundColor: '#007bff',
-    borderRadius: 4,
+    backgroundColor: '#AEC5EB',
+    borderRadius: 50,
     padding: 8,
   },
   viewButtonText: {
