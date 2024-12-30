@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     width: '100%', // Full width
     BorderRadius: 20,
     marginTop: 10,
-    marginBottom: 80, // Adjust margin to avoid overlap with BottomSheet and HomeMenu
+    marginBottom: 80,
 
     flex: 1,
   },
