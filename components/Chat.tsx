@@ -15,7 +15,7 @@ type ChatContentProps = {
     lastMessage: string;
     timestamp: string;
     }
-const Chat: React.FC<ChatContentProps> = ({content}) => {
+const Chat: React.FC<ChatContentProps> = ({name, lastMessage, timestamp}) => {
     const scale = useSharedValue(1);
     const backgroundColor = useSharedValue(0); // 0 para estado normal, 1 para presionado
 
@@ -49,14 +49,14 @@ const Chat: React.FC<ChatContentProps> = ({content}) => {
                 <Picture />
                 <View style={styles.content}>
                     <View style={styles.chatName}>
-                        <Text style={styles.chatNameText}>{content.name}</Text>
+                        <Text style={styles.chatNameText}>{name}</Text>
                     </View>
                     <View>
-                        <Text style={styles.messagePreview}>{content.lastMessage}</Text>
+                        <Text style={styles.messagePreview}>{lastMessage}</Text>
                     </View>
                 </View>
                 <View style={styles.timestamp}>
-                    <Text>{content.timestamp}</Text>
+                    <Text>{timestamp}</Text>
                 </View>
             </Pressable>
         </Animated.View>

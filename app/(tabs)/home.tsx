@@ -55,7 +55,7 @@ export default function Home() {
             style={styles.scrollableContent}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
-          >
+          
             <Notification />
             <HubUpdateCard
               hubName="Photography Hub"
@@ -95,7 +95,7 @@ export default function Home() {
           backgroundComponent={CustomBackground}
         >
           <BottomSheetScrollView style={styles.bottomsheet}>
-            <ChatPanel selectedTab={selectedTab} />
+            <ChatPanel />
           </BottomSheetScrollView>
         </BottomSheet>
       </View>
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollableContent: {
-    width: '100%', // Full width
-    BorderRadius: 20,
+    width: '100%', 
+    borderRadius: 20,
     marginTop: 10,
     marginBottom: 80,
 
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-end',
     paddingBottom: 0,
-    height: '85',
+    height: 85,
   },
   tabs: {
       flexDirection: 'column',

@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback, usememo } from 'react';
+import React, { useMemo, useRef, useCallback } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -12,7 +12,7 @@ const ChatPanel = () => {
                                       name: `Chat ${index + 1}`,
                                       lastMessage: `This is the last message for chat ${index + 1}.`,
                                       timestamp: '1 hour ago', // You can adjust this
-                                    }))
+                                    })), []
                         )
 
   return (
@@ -22,7 +22,7 @@ const ChatPanel = () => {
         </View>
         <BottomSheetScrollView style={styles.chatList} showsVerticalScrollIndicator={false}>
              {chats.map((chat) => (
-                <Chat key={chat.id} content={chat} />
+                <Chat key={chat.id} name={chat.name} lastMessage={chat.lastMessage} timestamp={chat.timestamp} />
             ))}
         </BottomSheetScrollView>
     </View>
