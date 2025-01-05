@@ -1,6 +1,5 @@
 import React, { useMemo, useRef, useCallback } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import Icon from 'react-native-vector-icons/FontAwesome';
 

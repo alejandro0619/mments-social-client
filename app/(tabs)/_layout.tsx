@@ -1,19 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Slot, useRouter } from 'expo-router';
 import { View, ActivityIndicator } from 'react-native';
+import { supabase } from '@/services/supabase'; // Importamos el cliente de Supabase
 
-// Simularemos un estado de autenticación con un valor de sesión.
+// Hook para manejar la autenticación
 const useAuth = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simula una verificación de autenticación (podrías usar AsyncStorage o SecureStore aquí)
-    setTimeout(() => {
-      const userSession = true; // Cambia esto a true para simular un usuario logueado.
-      setIsLoggedIn(userSession);
-      setLoading(false);
-    }, 1000);
+    // Comprobamos la sesión con Supabase
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setIsLoggedIn(true); // Usuario autenticado
+      } else {
+        setIsLoggedIn(false); // Usuario no autenticado
+      }
+      setLoading(false); // Termina la carga
+    };
+
+    checkSession();
+
+    // Listener para cambios de sesión
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session);
+    });
+
+    // Cleanup del listener cuando el componente se desmonte
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return { isLoggedIn, loading };
@@ -25,7 +42,7 @@ export default function Layout() {
 
   useEffect(() => {
     if (!loading && !isLoggedIn) {
-      router.replace('/login'); // Redirige a la pantalla de login si no está autenticado
+      router.replace('/auth/login'); // Redirige a la pantalla de login si no está autenticado
     }
   }, [loading, isLoggedIn]);
 

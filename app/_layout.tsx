@@ -8,6 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { supabase } from '@/services/supabase';
 
 
 export {
@@ -54,19 +55,33 @@ function RootLayoutNav() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simula la verificación de la autenticación
-    setTimeout(() => {
-      const userSession = false; // Cambia a true para simular un usuario autenticado
-      setIsLoggedIn(userSession);
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
       setLoading(false);
-    }, 1000);
+    };
+  
+    checkSession();
+  
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session);
+    });
+  
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
-
+  
   useEffect(() => {
-    if (!loading && !isLoggedIn) {
-      router.replace('/login'); // Redirige al login si no está autenticado
+    // Only attempt to redirect after loading is finished
+    if (!loading) {
+      if (!isLoggedIn) {
+        router.replace('/auth/login'); // Redirect to login if not authenticated
+      } else {
+        router.replace('/(tabs)/home'); // Or wherever you want to redirect if authenticated
+      }
     }
-  }, [loading, isLoggedIn]);
+  }, [loading, isLoggedIn, router]);
 
   if (loading) {
     return (
@@ -80,10 +95,7 @@ function RootLayoutNav() {
     <ThemeProvider value={DefaultTheme}>
       <GestureHandlerRootView>
       <Stack>
-
-        <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
       </Stack>
       </GestureHandlerRootView>
     </ThemeProvider>
